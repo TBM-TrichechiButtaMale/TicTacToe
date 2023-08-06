@@ -11,14 +11,14 @@ let isYourTurn = true;
 let yourRandomNumber = 0;
 let player2Number = 0;
 
-data ={
+let data ={
     number : 0,
     randomNumber : 0,
 }
 
 peer.on('open', (id)=>{
     console.log(`L'ID di peer Ã¨: ${id}`);
-    yourPeer.value = `${id}`
+    yourPeer.innerHTML = `${id}`
 });
 
 
@@ -117,7 +117,7 @@ function play(){
 }
 
 copyPeer.addEventListener('click', ()=>{
-    let words = yourPeer.value;
+    let words = yourPeer.innerHTML;
     navigator.clipboard.writeText(words)
     .then(() => {
       // Se l'operazione di copia è riuscita, mostra un feedback visivo all'utente
