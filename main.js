@@ -60,7 +60,7 @@ function testConnection(){
 peer.on('connection', function(conn) {
     conn.on('data', function(data){
 
-      tic.forEach((el,i)=>{
+      
         if(data.number == 888){
             player2 =true;
             play();
@@ -68,20 +68,31 @@ peer.on('connection', function(conn) {
             firsTurn();
 
         }else if(data.number == 99){
-            el.innerHTML = `-`;
+            tic.forEach((el,i)=>{
+                el.innerHTML = `-`;
+            })
             yourRandomNumber = randomN();
             player2Number = data.randomNumber
             firsTurn();
-
-        }else {
-            if(i==data.number){
-                isYourTurn = true;
-                turn.innerHTML = "E' il tuo turno";
-                el.innerHTML = `<i class="bi bi-x-lg text-danger display-2"></i>`;
-                winner();
+            if(player2Number != 0){
+                data.randomNumber = yourRandomNumber
+                data.number = 98
+                conn.send(data)
             }
+            
+        } else if(data.number == 98){
+            player2Number = data.randomNumber
+            firsTurn();
+        }else {
+            tic.forEach((el,i)=>{
+                if(i==data.number){
+                    isYourTurn = true;
+                    turn.innerHTML = "E' il tuo turno";
+                    el.innerHTML = `<i class="bi bi-x-lg text-danger display-2"></i>`;
+                    winner();
+                }
+            })
         }
-      })
 
     });
   });
@@ -111,9 +122,9 @@ let gameboard = document.querySelector("#gameboard");
 resetGame.addEventListener('click', ()=>{
     tic.forEach((el)=>{
         el.innerHTML = "-";
+        player2Number = 0;
         yourRandomNumber = randomN();
         data.randomNumber = yourRandomNumber
-        firsTurn();
         data.number = 99
         conn.send(data)
     })
