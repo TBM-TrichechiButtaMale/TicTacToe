@@ -5,6 +5,8 @@ let peerConnection = document.querySelector('#idPeer2');
 let turn = document.querySelector('#turn');
 let buttonConnection = document.querySelector('#buttonConnection');
 let winnerBox = document.querySelector('#winner');
+let copied = document.querySelector('#copied');
+let connected = document.querySelector('#connected');
 
 let player1 = false;
 let player2 = false;
@@ -20,7 +22,7 @@ let data ={
 }
 
 peer.on('open', (id)=>{
-    console.log(`L'ID di peer Ã¨: ${id}`);
+    // console.log(`L'ID di peer Ã¨: ${id}`);
     yourPeer.innerHTML = `${id}`
 });
 
@@ -34,7 +36,16 @@ function testConnection(){
     conn = peer.connect(idPeer);
 
     conn.on('open', function(){
-        console.log('connesso!');
+        // CONNESSIONE HTML
+            let div = document.createElement("div")
+            div.classList.add("copied");
+            div.innerHTML = "connesso";
+            connected.appendChild(div);
+            setTimeout(() => {
+                div.remove();
+            }, 1500);
+        // FINE HTML 
+        // console.log('connesso!');
         player1 = true
         play();
         yourRandomNumber = randomN();
@@ -51,7 +62,10 @@ function testConnection(){
 
  
 }
+function sendData(data){
+    conn.send(data)
 
+}
 
 
 // on open will be launch when you successfully connect to PeerServer
@@ -74,11 +88,9 @@ peer.on('connection', function(conn) {
             yourRandomNumber = randomN();
             player2Number = data.randomNumber
             firsTurn();
-            if(player2Number != 0){
-                data.randomNumber = yourRandomNumber
-                data.number = 98
-                conn.send(data)
-            }
+            data.randomNumber = yourRandomNumber
+            data.number = 98
+            sendData(data);
             
         } else if(data.number == 98){
             player2Number = data.randomNumber
@@ -122,12 +134,12 @@ let gameboard = document.querySelector("#gameboard");
 resetGame.addEventListener('click', ()=>{
     tic.forEach((el)=>{
         el.innerHTML = "-";
-        player2Number = 0;
-        yourRandomNumber = randomN();
-        data.randomNumber = yourRandomNumber
-        data.number = 99
-        conn.send(data)
     })
+    player2Number = 0;
+    yourRandomNumber = randomN();
+    data.randomNumber = yourRandomNumber
+    data.number = 99
+    conn.send(data)
     winnerBox.classList.add("d-none")
 })
 
@@ -144,17 +156,26 @@ copyPeer.addEventListener('click', ()=>{
     navigator.clipboard.writeText(words)
     .then(() => {
       // Se l'operazione di copia è riuscita, mostra un feedback visivo all'utente
-      console.log('Testo copiato con successo!');
+    //   console.log('Testo copiato con successo!');
     })
     .catch((err) => {
       // Se l'operazione di copia ha avuto un errore, gestiscilo qui
-      console.error('Errore durante la copia del testo: ', err);
+    //   console.error('Errore durante la copia del testo: ', err);
     });
+
+    let div = document.createElement("div")
+    div.classList.add("copied");
+    div.innerHTML = "copiato";
+    copied.appendChild(div);
+    setTimeout(() => {
+        div.remove();
+    }, 1500);
 })
 
 buttonConnection.addEventListener('click', ()=>{
     testConnection();
-    peerConnection.value= "";  
+    peerConnection.value= "";
+    
 })
 
 function randomN (){
@@ -165,6 +186,7 @@ function firsTurn(){
     if(yourRandomNumber > 0 && player2Number > 0){
         if (yourRandomNumber > player2Number) {
             turn.innerHTML = "E' il tuo turno"
+            isYourTurn = true
         } else {
             turn.innerHTML = "E' il turno del tuo avversario"
             isYourTurn = false

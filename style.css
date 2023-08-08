@@ -23,3 +23,25 @@
     padding: 0px 50px;
     white-space: nowrap;
 }
+
+.copied{
+    position: absolute;
+    left: 50%;
+    bottom: 0%;
+    transform: translate(-50%, 50%);
+    padding: 0px 50px;
+    background-color: rgba(62, 236, 62, 0.719);
+    font-size: large;
+    font-weight: bold;
+    border-radius: 10px;
+    animation: fade 1.5s;
+}
+
+@keyframes fade {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
