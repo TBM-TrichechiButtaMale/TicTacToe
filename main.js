@@ -4,12 +4,15 @@ let yourPeer = document.querySelector("#yourPeer");
 let peerConnection = document.querySelector('#idPeer2');
 let turn = document.querySelector('#turn');
 let buttonConnection = document.querySelector('#buttonConnection');
+let winnerBox = document.querySelector('#winner');
 
 let player1 = false;
 let player2 = false;
 let isYourTurn = true;
 let yourRandomNumber = 0;
 let player2Number = 0;
+let circle = `<i class="bi bi-circle text-danger display-2"></i>`;
+let cross = `<i class="bi bi-x-lg text-danger display-2"></i>`;
 
 let data ={
     number : 0,
@@ -72,6 +75,7 @@ peer.on('connection', function(conn) {
                 isYourTurn = true;
                 turn.innerHTML = "E' il tuo turno";
                 el.innerHTML = `<i class="bi bi-x-lg text-danger display-2"></i>`;
+                winner();
             }
         }
       })
@@ -96,6 +100,7 @@ let gameboard = document.querySelector("#gameboard");
                     data.number = i
                     turn.innerHTML = "E' il turno del tuo avversario"
                     conn.send(data);
+                    winner();
                 }
               })
     })
@@ -106,6 +111,7 @@ resetGame.addEventListener('click', ()=>{
         data.number = 99
         conn.send(data)
     })
+    winnerBox.classList.add("d-none")
 })
 
 
@@ -146,5 +152,21 @@ function firsTurn(){
             turn.innerHTML = "E' il turno del tuo avversario"
             isYourTurn = false
         }
+    }
+}
+
+function winner() {
+    if( (tic[0].innerHTML == circle && tic[1].innerHTML == circle && tic[2].innerHTML == circle)  ||  (tic[3].innerHTML == circle && tic[4].innerHTML == circle && tic[5].innerHTML == circle) || (tic[6].innerHTML == circle && tic[7].innerHTML == circle && tic[8].innerHTML == circle) || (tic[0].innerHTML == circle && tic[3].innerHTML == circle && tic[6].innerHTML == circle) || (tic[1].innerHTML == circle && tic[4].innerHTML == circle && tic[7].innerHTML == circle) || (tic[2].innerHTML == circle && tic[5].innerHTML == circle && tic[8].innerHTML == circle) || (tic[0].innerHTML == circle && tic[4].innerHTML == circle && tic[8].innerHTML == circle) || (tic[2].innerHTML == circle && tic[4].innerHTML == circle && tic[6].innerHTML == circle) ){
+
+        winnerBox.innerHTML ="HAI VINTO"
+        winnerBox.classList.remove("d-none")
+        console.log("hai vinto")
+
+    } else if( (tic[0].innerHTML == cross && tic[1].innerHTML == cross && tic[2].innerHTML == cross)  ||  (tic[3].innerHTML == cross && tic[4].innerHTML == cross && tic[5].innerHTML == cross) || (tic[6].innerHTML == cross && tic[7].innerHTML == cross && tic[8].innerHTML == cross) || (tic[0].innerHTML == cross && tic[3].innerHTML == cross && tic[6].innerHTML == cross) || (tic[1].innerHTML == cross && tic[4].innerHTML == cross && tic[7].innerHTML == cross) || (tic[2].innerHTML == cross && tic[5].innerHTML == cross && tic[8].innerHTML == cross) || (tic[0].innerHTML == cross && tic[4].innerHTML == cross && tic[8].innerHTML == cross) || (tic[2].innerHTML == cross && tic[4].innerHTML == cross && tic[6].innerHTML == cross) ){
+
+        winnerBox.innerHTML ="HAI PERSO"
+        winnerBox.classList.remove("d-none")
+        console.log("Il tuo avversario ha vinto")
+
     }
 }

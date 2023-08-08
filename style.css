@@ -10,3 +10,16 @@
     border: 2px solid black;
     border-radius: 10px;
 }
+
+.winner{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    background-color: rgba(184, 188, 103, 0.227);
+    backdrop-filter: blur(10px);
+    font-weight: bold;
+    padding: 0px 50px;
+    white-space: nowrap;
+}
