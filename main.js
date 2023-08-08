@@ -39,8 +39,8 @@ function testConnection(){
         play();
         yourRandomNumber = randomN();
         data.randomNumber = yourRandomNumber
-        data.number = 888
         firsTurn();
+        data.number = 888
         conn.send(data)
 
     })
@@ -69,6 +69,9 @@ peer.on('connection', function(conn) {
 
         }else if(data.number == 99){
             el.innerHTML = `-`;
+            yourRandomNumber = randomN();
+            player2Number = data.randomNumber
+            firsTurn();
 
         }else {
             if(i==data.number){
@@ -102,12 +105,15 @@ let gameboard = document.querySelector("#gameboard");
                     conn.send(data);
                     winner();
                 }
-              })
+            })
     })
 
 resetGame.addEventListener('click', ()=>{
     tic.forEach((el)=>{
         el.innerHTML = "-";
+        yourRandomNumber = randomN();
+        data.randomNumber = yourRandomNumber
+        firsTurn();
         data.number = 99
         conn.send(data)
     })
@@ -160,13 +166,11 @@ function winner() {
 
         winnerBox.innerHTML ="HAI VINTO"
         winnerBox.classList.remove("d-none")
-        console.log("hai vinto")
 
     } else if( (tic[0].innerHTML == cross && tic[1].innerHTML == cross && tic[2].innerHTML == cross)  ||  (tic[3].innerHTML == cross && tic[4].innerHTML == cross && tic[5].innerHTML == cross) || (tic[6].innerHTML == cross && tic[7].innerHTML == cross && tic[8].innerHTML == cross) || (tic[0].innerHTML == cross && tic[3].innerHTML == cross && tic[6].innerHTML == cross) || (tic[1].innerHTML == cross && tic[4].innerHTML == cross && tic[7].innerHTML == cross) || (tic[2].innerHTML == cross && tic[5].innerHTML == cross && tic[8].innerHTML == cross) || (tic[0].innerHTML == cross && tic[4].innerHTML == cross && tic[8].innerHTML == cross) || (tic[2].innerHTML == cross && tic[4].innerHTML == cross && tic[6].innerHTML == cross) ){
 
         winnerBox.innerHTML ="HAI PERSO"
         winnerBox.classList.remove("d-none")
-        console.log("Il tuo avversario ha vinto")
 
     }
 }
