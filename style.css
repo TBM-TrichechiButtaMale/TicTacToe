@@ -30,11 +30,11 @@
     bottom: 0%;
     transform: translate(-50%, 50%);
     padding: 0px 50px;
-    background-color: rgba(62, 236, 62, 0.719);
+    background-color: rgb(62, 236, 62);
     font-size: large;
     font-weight: bold;
     border-radius: 10px;
-    animation: fade 1.5s;
+    animation: fade 2s;
 }
 
 @keyframes fade {

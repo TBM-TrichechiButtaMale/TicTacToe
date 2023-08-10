@@ -43,7 +43,7 @@ function testConnection(){
             connected.appendChild(div);
             setTimeout(() => {
                 div.remove();
-            }, 1500);
+            }, 2000);
         // FINE HTML 
         // console.log('connesso!');
         player1 = true
@@ -169,7 +169,7 @@ copyPeer.addEventListener('click', ()=>{
     copied.appendChild(div);
     setTimeout(() => {
         div.remove();
-    }, 1500);
+    }, 2000);
 })
 
 buttonConnection.addEventListener('click', ()=>{
